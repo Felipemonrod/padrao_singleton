@@ -2,7 +2,7 @@ import java.util.Random;
 
 public class GeradorCaptcha {
 
-    private static final String CARACTERES = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%&*";
+    private static final String CARACTERES = "0123456789!@#$%&*";
     private static final int TAMANHO = 6;
 
     public static String gerar() {

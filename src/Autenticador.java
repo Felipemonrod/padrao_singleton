@@ -1,20 +1,22 @@
 import java.util.Scanner;
 
-public class SistemaLogin {
+public class Autenticador {
 
-    private static SistemaLogin instancia;
+    private static Autenticador instancia;
+
+    private static final String USUARIO_VALIDO = "admin";
+    private static final String SENHA_VALIDA = "1234";
 
     private String nomeUsuario;
-    private String senha;
     private boolean autenticado;
 
-    private SistemaLogin() {
+    private Autenticador() {
         this.autenticado = false;
     }
 
-    public static SistemaLogin getInstancia() {
+    public static Autenticador getInstance() {
         if (instancia == null) {
-            instancia = new SistemaLogin();
+            instancia = new Autenticador();
         }
         return instancia;
     }
@@ -23,12 +25,12 @@ public class SistemaLogin {
         System.out.println("========== SISTEMA DE LOGIN ==========");
 
         System.out.print("Usuario: ");
-        this.nomeUsuario = scanner.nextLine();
+        String usuario = scanner.nextLine();
 
         System.out.print("Senha: ");
-        this.senha = scanner.nextLine();
+        String senha = scanner.nextLine();
 
-        if (nomeUsuario.isEmpty() || senha.isEmpty()) {
+        if (usuario.isEmpty() || senha.isEmpty()) {
             System.out.println("Usuario e senha nao podem ser vazios!");
             return false;
         }
@@ -41,10 +43,15 @@ public class SistemaLogin {
 
         if (!resposta.equals(captcha)) {
             System.out.println("Codigo incorreto! Acesso negado.");
-            this.autenticado = false;
             return false;
         }
 
+        if (!usuario.equals(USUARIO_VALIDO) || !senha.equals(SENHA_VALIDA)) {
+            System.out.println("Usuario ou senha incorretos!");
+            return false;
+        }
+
+        this.nomeUsuario = usuario;
         this.autenticado = true;
         System.out.println("\nLogin realizado com sucesso! Bem-vindo, " + nomeUsuario + "!");
         return true;
@@ -55,7 +62,6 @@ public class SistemaLogin {
             System.out.println("Usuario " + nomeUsuario + " desconectado.");
             this.autenticado = false;
             this.nomeUsuario = null;
-            this.senha = null;
         } else {
             System.out.println("Nenhum usuario conectado.");
         }

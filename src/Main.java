@@ -1,20 +1,21 @@
 import java.util.Scanner;
 
-public class App {
+public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        SistemaLogin sistema = SistemaLogin.getInstancia();
+        Autenticador autenticador = Autenticador.getInstance();
 
         // Demonstra que e a mesma instancia (Singleton)
-        SistemaLogin sistema2 = SistemaLogin.getInstancia();
-        System.out.println("Mesma instancia? " + (sistema == sistema2));
+        Autenticador autenticador2 = Autenticador.getInstance();
+        System.out.println("Mesma instancia? " + (autenticador == autenticador2));
+        System.out.println("[Dica] Credenciais validas: usuario=admin / senha=1234");
         System.out.println();
 
         int tentativas = 3;
 
-        while (tentativas > 0 && !sistema.isAutenticado()) {
-            boolean sucesso = sistema.login(scanner);
+        while (tentativas > 0 && !autenticador.isAutenticado()) {
+            boolean sucesso = autenticador.login(scanner);
 
             if (!sucesso) {
                 tentativas--;
@@ -25,16 +26,16 @@ public class App {
             }
         }
 
-        if (!sistema.isAutenticado()) {
+        if (!autenticador.isAutenticado()) {
             System.out.println("Numero maximo de tentativas atingido. Sistema bloqueado.");
         } else {
             System.out.println("\n--- Area restrita ---");
-            System.out.println("Usuario logado: " + sistema.getNomeUsuario());
+            System.out.println("Usuario logado: " + autenticador.getNomeUsuario());
             System.out.print("\nDeseja sair? (s/n): ");
             String opcao = scanner.nextLine();
 
             if (opcao.equalsIgnoreCase("s")) {
-                sistema.logout();
+                autenticador.logout();
             }
         }
 
